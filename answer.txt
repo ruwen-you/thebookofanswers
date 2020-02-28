@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>The Book of Answers</title>
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+<body>
+
+    <!--Change User Type-->
+    <button type="button">Naive</button>
+    <button type="button">Novice</button>
+    <button type="button">Typical</button>
+    <button type="button">Advanced</button>
+
+
+    <!--Introduction part for NOVICE-->
+    <p> Life is full of choices.</p>
+    <button type="button" onclick="document.getElementById('info').style.display='block'">MORE INFO</button>
+    <p hidden id="info"> However, we really don't need to take the time to think about so many issues that don't need to be considered at all. <br>
+        Do you want to resign, buy or not buy this dress, should you agree to the headhunter to go to the new company for an interview, or not to confess ... <br>
+        you are always hesitant about similar questions. <br>
+        In fact, you already have the answer in your heart, but always need an additional voice to confirm the idea with you, and then put into practice. <br>
+        This is where the Book of Answers works. <br>
+        It can't solve every major event of your life, it is only responsible for ironing out the details of the minor issues. <br>
+        At every difficult time, push you.</p>
+    <br>
+    <br>
+    <button type="button">OPEN THE BOOK</button>
+    
+    <!--Walkthrough part for NOVICE-->
+    <p>Welcome to THE BOOK OF ANSWERS</p>
+    <p>Now, what is the problem that bothers you most?
+       <br>Take 10 or 15 seconds to concentrate on your question.
+       <br>Questions should be phrased closed-end, such as:
+       <li>Should I ask my boss for a raise?</li>
+       <li>Should I call that cute guy you met at a party?</li> 
+       <li>Should I tell my best friend her boyfriend’s cheating on her?</li>
+       <li>Wouldn’t it be nice to have a handy method of handling some of life’s more pressing dilemmas?</li>
+    
+    
+    <p>Do you have a question in your mind now?</p>
+    
+    <button type="button">YES</button>
+
+    <button type="button">NOT YET</button>
+    <br>
+    <br>
+    <button type="button" onclick="myQuestion()">Input My Question</button>
+
+    <!--IF choose YES-->
+    <form id="form" style="display:none"> 
+        <p>What is your question?<button onclick="myPop()">Example</button></p>
+        
+        <p id="complex">
+        <input id="question" type="text" onmouseover="myHint()" oninput="myInput()" placeholder="type here" name="inputfield" required/>
+        <b id="step1">&lt ENTER YOUR CLOSED_END QUESTION</b>
+        <p id="inlinevalidation"></p>
+        <p id="hint"></p>
+        </p>
+    
+        <button type="button" id="GiveAnswer" onmouseover="myNoHint()" onclick="myAnswer();clickCounter()" disabled>GIVE ME THE ANSWER</button>
+
+        <b id="step2" style="display:none">^ PRESS THE BUTTON</b>
+
+        <p><button type="button" onclick="mySetting()">Settings</button>
+            <p id="settingsselect" style="display:none">
+            <input type=radio id="set1" name=myradio >Certain Answer<br>
+            <input type=radio id="set2" name=myradio checked>Uncertain Answer<br>
+            </p>
+        </p>
+
+    </form>
+
+        <!--After click "GIVE ME THE ANSWER"-->
+    <p id="result"></p>
+
+
+    <!--Wizard-->
+        <!--question type-->
+        <p id="simpleselect" style="display:none">
+            <input type=radio id="aboutlife" name=simple>About Life<br>
+            <input type=radio id="aboutstudy" name=simple>About Work<br>
+            <button type="button" onclick="myNext()">Next</button>
+        </p>
+        <!--first type-->
+        <p id="life" style="display:none">
+            <input type=radio id="style" name=life>Should I change my lifestyle<br>
+            <input type=radio id="interest" name=life>Should I try a new hobby<br>
+            <button type="button"></button>
+        </p>
+        <!--second type-->
+        <p id="study" style="display:none">
+            <input type=radio id="project" name=study>Can I finish my project today<br>
+            <input type=radio id="read" name=study> Should I read more books<br>
+        </p>
+        <button type="button" id="giveanswer" onmouseover="myNoHint()" onclick="myAnswer();clickCounter()" style="display:none">GIVE ME THE ANSWER</button>
+
+        <!--simple button-->
+        <p><button type="button" onclick="mySimple()">Simple</button></p>
+        <p id="answer"></p>
+
+
+        
+
+
+
+
+    <script>
+
+        var ANSWER = [
+            "You will not be disappointed",
+            "Show your appreciation",
+            "Your actions will improve things",
+            "Don't bet on it",
+            "Adopt an adventurous attitude",
+            "Follow the advice of experts",
+            "You could find yourself unable to compromise",
+            "Focus on your home life",
+            "Investigate and then enjoy it",
+            "Definitely"
+        ]
+
+        var Certain_Answer = [
+            "Yes",
+            "No"
+        ]
+
+        function myAnswer() {
+            var x, number;
+            x = document.getElementById("question").value;
+
+            s1 = document.getElementById("set1").checked;
+            s2 = document.getElementById("set2").checked;
+
+            console.log(s1)
+         
+            if (s1) {
+                number = Math.round(Math.random());
+                text = "Answer: " + Certain_Answer[number];
+            }
+            if (s2) {
+                number = Math.floor(Math.random() * 10);
+                text = "Answer: " + ANSWER[number];
+            }
+
+            document.getElementById("answer").innerHTML = text;
+            document.getElementById('step2').style.display='none';
+        }
+
+        function myInput() {
+            document.getElementById('step1').style.display='none';
+            sentence = document.getElementById('question').value;
+            new_sentence = sentence.replace(/\s+/g,' ');
+            new_sentence = new_sentence.trim();
+            sentence_length = new_sentence.split(" ").length;
+            
+            if (sentence == "") {
+                document.getElementById("inlinevalidation").innerHTML = "can't be blank";
+                document.getElementById("GiveAnswer").disabled = true;
+            }
+
+            else if (sentence_length<3) {
+                document.getElementById("inlinevalidation").innerHTML = "must be more than 2 words"
+                document.getElementById("GiveAnswer").disabled = true;
+            }
+
+            else {
+                document.getElementById("inlinevalidation").innerHTML = " ";
+                document.getElementById("GiveAnswer").disabled = false;
+                document.getElementById('step2').style.display='block';	
+            }
+        }
+
+        function myQuestion() {
+            document.getElementById('form').style.display='block';
+            document.getElementById('answer').style.display='block';           
+        } 
+
+        function myHint() {
+            document.getElementById("hint").innerHTML = "Please input a closed-end question";
+        }
+
+        function myNoHint() {
+            document.getElementById("hint").innerHTML = " ";
+        }
+
+        function myPop() {
+            alert("Should I ask my boss for a raise?");
+        }
+
+        function clickCounter() {
+            if(typeof(Storage) !== "undefined") {
+                if (localStorage.clickcount) {
+                    localStorage.clickcount = Number(localStorage.clickcount)+1;
+                } else {
+                    localStorage.clickcount = 1;
+                }
+                document.getElementById("result").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
+            } else {
+                document.getElementById("result").innerHTML = "Your browser does not support web storage...";
+
+            }
+        }
+
+        function TypeChange() {
+            User
+        }
+
+        function mySetting() {
+            document.getElementById('settingsselect').style.display='block';
+        }
+        
+        function mySimple() {
+            document.getElementById('form').style.display='none';
+            document.getElementById('simpleselect').style.display='block';
+        }
+
+        function myNext() {
+            life = document.getElementById("aboutlife").checked;
+            study = document.getElementById("aboutstudy").checked;
+            document.getElementById('giveanswer').style.display='block';
+            if (life) {
+                document.getElementById('life').style.display='block';
+                document.getElementById('simpleselect').style.display='none';
+            }
+            if (study) {
+                document.getElementById('study').style.display='block';
+                document.getElementById('simpleselect').style.display='none';
+            }
+        }
+
+        function TypeChange() {
+            UserCount = localStorage.clickcount
+            if (0<UserCount<
+        }
+
+    </script>
+
+
+
+</body>
+</html>
